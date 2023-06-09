@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "SightsList";
+}
+
+@model ee.Models.SightsViewModel
+
+@{
+    // Sort the places by stop name
+    Model.Sights.Sort((p1, p2) => string.Compare(p1.Name, p2.Name));
+}
+
+<style>
+    .table-row-even {
+        background-color: #f9f9f9;
+    }
+
+    .table-row-odd {
+        background-color: #ffffff;
+    }
+
+    .details-button {
+        border-radius: 20px;
+        padding: 6px 12px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+    }
+</style>
+
+<h2>Sights near the stop</h2>
+
+<table style="border-collapse: collapse; width: 100%;">
+    <thead style="background-color: #f2f2f2;">
+        <tr>
+            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Sight Name</th>
+            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sight in Model.Sights)
+            {
+                var index = Model.Sights.IndexOf(sight);
+                string imageString = sight.Image != null ? sight.Image.ToString() : string.Empty;
+                var x = sight.Name;
+                var y = sight.Text;
+            <tr style="background-color: @((index % 2 == 0) ? "table-row-even" : "table-row-odd");">
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">@sight.Name</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+                    <a href="/Sights/Details?name=@x&amp;text=@y&amp;address=@sight.Address" class="details-button">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

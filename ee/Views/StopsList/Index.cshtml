@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "StopsList";
+}
+
+@model ee.Models.StopsViewModel
+
+@{
+    // Sort the places by stop name
+    Model.Stops.Sort((p1, p2) => string.Compare(p1.Name, p2.Name));
+}
+
+<style>
+    .table-row-even {
+        background-color: #f9f9f9;
+    }
+
+    .table-row-odd {
+        background-color: #ffffff;
+    }
+
+    .details-button {
+        border-radius: 20px;
+        padding: 6px 12px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+    }
+</style>
+
+<h2>Stops in Brno</h2>
+
+<table style="border-collapse: collapse; width: 100%;">
+    <thead style="background-color: #f2f2f2;">
+        <tr>
+            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Stop ID</th>
+            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Stop Name</th>
+            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Sights</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stop in Model.Stops)
+            {
+                var index = Model.Stops.IndexOf(stop);
+                var x = stop.Geometry.X.ToString().Replace(',', '.');
+                var y = stop.Geometry.Y.ToString().Replace(',', '.');
+            <tr style="background-color: @((index % 2 == 0) ? "table-row-even" : "table-row-odd");">
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">@stop.Id</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">@stop.Name</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+                    <a href="/Sights/View?x=@x&amp;y=@y" class="details-button">Show</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>function function showDetails(stopId) {
+        // Redirect to the details view
+        //window.location.href = "/Sights/View?stopId=" + stopId;
+        window.location.replace("/Sights");
+    }</script>
