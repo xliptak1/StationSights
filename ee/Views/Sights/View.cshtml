@@ -10,6 +10,44 @@
 }
 
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .table th,
+        .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+
     .table-row-even {
         background-color: #f9f9f9;
     }
@@ -24,32 +62,50 @@
         background-color: #4CAF50;
         color: white;
         border: none;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
     }
+
+        .details-button:hover {
+            background-color: #45a049;
+        }
 </style>
 
-<h2>Sights near the stop</h2>
+<div class="container">
+    <h2>Sights near the stop</h2>
 
-<table style="border-collapse: collapse; width: 100%;">
-    <thead style="background-color: #f2f2f2;">
-        <tr>
-            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Sight Name</th>
-            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Details</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var sight in Model.Sights)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sight Name</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sight in Model.Sights)
             {
                 var index = Model.Sights.IndexOf(sight);
                 string imageString = sight.Image != null ? sight.Image.ToString() : string.Empty;
-                var x = sight.Name;
-                var y = sight.Text;
-            <tr style="background-color: @((index % 2 == 0) ? "table-row-even" : "table-row-odd");">
-                <td style="padding: 8px; border-bottom: 1px solid #ddd;">@sight.Name</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ddd;">
-                    <a href="/Sights/Details?name=@x&amp;text=@y&amp;address=@sight.Address" class="details-button">Details</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                var name = sight.Name;
+                var text = sight.Text;
+                var address = sight.Address;
+                <tr class="@((index % 2 == 0) ? "table-row-even" : "table-row-odd")">
+                    <td>@sight.Name</td>
+                    <td>
+                        <button onclick="showDetails(this)" class="details-button" data-name="@name" data-text="@text" data-address="@address">Details</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
+<script>function showDetails(element) {
+        var name = element.dataset.name;
+        var text = element.dataset.text;
+        var address = element.dataset.address;
+
+        // Redirect to the details view
+        window.location.href = "/Sights/Details?name=" + encodeURIComponent(name) + "&text=" + encodeURIComponent(text) + "&address=" + encodeURIComponent(address);
+    }</script>

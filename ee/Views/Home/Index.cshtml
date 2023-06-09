@@ -2,8 +2,49 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">StationSights</h1>
-    <p>Introducing our Proximity-based Tourist Attractions Finder, a groundbreaking app that connects travellers to the most captivating tourist attractions near public transport stations. Say goodbye to the hassle of searching for nearby attractions - with a single click, our app unveils an array of hidden gems just steps away from your chosen station.</p>
-</div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+    }
 
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .display-4 {
+        margin-bottom: 20px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+</style>
+
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4">StationSights</h1>
+        <p>Introducing our Proximity-based Tourist Attractions Finder, a groundbreaking app that connects travellers to the most captivating tourist attractions near public transport stations. Say goodbye to the hassle of searching for nearby attractions - with a single click, our app unveils an array of hidden gems just steps away from your chosen station.</p>
+    </div>
+    <div class="text-center">
+        <a href="/StopsList/Index" class="btn-primary">View Stops</a>
+    </div>
+</div>

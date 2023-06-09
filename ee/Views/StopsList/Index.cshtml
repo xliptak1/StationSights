@@ -10,6 +10,36 @@
 }
 
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .table th,
+        .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+
     .table-row-even {
         background-color: #f9f9f9;
     }
@@ -24,38 +54,97 @@
         background-color: #4CAF50;
         color: white;
         border: none;
+        cursor: pointer;
     }
+
+        .details-button:hover {
+            background-color: #45a049;
+        }
+
+    .filter-buttons {
+        margin-bottom: 20px;
+    }
+
+    .filter-button {
+        border-radius: 20px;
+        padding: 6px 12px;
+        background-color: #ddd;
+        color: #555;
+        border: none;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+        .filter-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
 </style>
 
-<h2>Stops in Brno</h2>
+<div class="container">
+    <h2>Stops in Brno</h2>
 
-<table style="border-collapse: collapse; width: 100%;">
-    <thead style="background-color: #f2f2f2;">
-        <tr>
-            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Stop ID</th>
-            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Stop Name</th>
-            <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">Sights</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var stop in Model.Stops)
+    <div class="filter-buttons">
+        <button onclick="filterStops('all')" class="filter-button active">All</button>
+        @for (char c = 'A'; c <= 'Z'; c++)
+        {
+            <button onclick="filterStops('@c')" class="filter-button">@c</button>
+        }
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Stop ID</th>
+                <th>Stop Name</th>
+                <th>Sights</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var stop in Model.Stops)
             {
                 var index = Model.Stops.IndexOf(stop);
                 var x = stop.Geometry.X.ToString().Replace(',', '.');
                 var y = stop.Geometry.Y.ToString().Replace(',', '.');
-            <tr style="background-color: @((index % 2 == 0) ? "table-row-even" : "table-row-odd");">
-                <td style="padding: 8px; border-bottom: 1px solid #ddd;">@stop.Id</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ddd;">@stop.Name</td>
-                <td style="padding: 8px; border-bottom: 1px solid #ddd;">
-                    <a href="/Sights/View?x=@x&amp;y=@y" class="details-button">Show</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                <tr class="table-row" data-stopname="@stop.Name">
+                    <td>@stop.Id</td>
+                    <td class="stop-name">@stop.Name</td>
+                    <td>
+                        <button onclick="showDetails('@x','@y')" class="details-button">Show</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-<script>function function showDetails(stopId) {
+<script>function filterStops(filter) {
+        var tableRows = document.getElementsByClassName("table-row");
+        for (var i = 0; i < tableRows.length; i++) {
+            var stopName = tableRows[i].getAttribute("data-stopname");
+            if (filter === "all" || stopName.startsWith(filter)) {
+                tableRows[i].style.display = "";
+            } else {
+                tableRows[i].style.display = "none";
+            }
+        }
+        var filterButtons = document.getElementsByClassName("filter-button");
+        for (var i = 0; i < filterButtons.length; i++) {
+            filterButtons[i].classList.remove("active");
+        }
+        var selectedButton = document.querySelector(".filter-button[data-filter='" + filter + "']");
+        selectedButton.classList.add("active");
+    }
+
+    function showDetails(x, y) {
         // Redirect to the details view
-        //window.location.href = "/Sights/View?stopId=" + stopId;
-        window.location.replace("/Sights");
+        window.location.replace("/Sights/View?x=" + encodeURIComponent(x) + "&y=" + encodeURIComponent(y));
     }</script>
+
+<style>
+    .filter-button.active {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+
