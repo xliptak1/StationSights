@@ -24,5 +24,17 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
+// Just trying something here
+app.Run(async (context) =>
+{
+    await context.Response.WriteAsync("Hello World!");
+}).ConfigureKestrel((context, options) =>
+{
+    options.ListenAnyIP(8080);
+});
+// Delete the section if it is not working
+
+
 app.Run();
 
