@@ -19,4 +19,4 @@ COPY --from=build /app/out .
 EXPOSE 80
 
 # Define the command to run the application
-ENTRYPOINT ["dotnet", "StationSights.dll"]
+ENTRYPOINT ["dotnet", "Microsoft.NET.Sdk.Web.dll"]
