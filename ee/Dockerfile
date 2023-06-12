@@ -16,7 +16,7 @@ WORKDIR /app
 COPY --from=build /app/out .
 
 # Expose the desired port (change it to match your application)
-EXPOSE 8080
+EXPOSE 5029
 
 # Set the entry point for the application
 ENTRYPOINT ["dotnet", "Microsoft.NET.Sdk.Web.dll"]
