@@ -20,7 +20,7 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "hhttp://*:8080",
+      "applicationUrl": "http://*:8080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
