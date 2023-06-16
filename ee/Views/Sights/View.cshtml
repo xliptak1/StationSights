@@ -91,7 +91,7 @@
                 var text = sight.Text;
                 var address = sight.Address;
                 <tr class="@((index % 2 == 0) ? "table-row-even" : "table-row-odd")">
-                    <td>@sight.Name</td>
+                    <td>@Html.Raw(sight.Name)</td>
                     <td>
                         <button onclick="showDetails(this)" class="details-button" data-name="@name" data-text="@text" data-address="@address">Details</button>
                     </td>
@@ -105,6 +105,14 @@
         var name = element.dataset.name;
         var text = element.dataset.text;
         var address = element.dataset.address;
+
+        // Define the maximum length for the text parameter
+        var maxLength = 1500;
+
+        // Truncate the text if it exceeds the maximum length
+        if (text.length > maxLength) {
+            text = text.substring(0, maxLength) + '...';
+        }
 
         // Redirect to the details view
         window.location.href = "/Sights/Details?name=" + encodeURIComponent(name) + "&text=" + encodeURIComponent(text) + "&address=" + encodeURIComponent(address);

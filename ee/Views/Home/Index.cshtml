@@ -14,24 +14,38 @@
         max-width: 800px;
         margin: 0 auto;
         padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .display-4 {
         margin-bottom: 20px;
+        font-size: 70px;
+        font-weight: bold;
+        color: red;
+        text-align: center;
     }
 
     .text-center {
         text-align: center;
     }
 
+    .lead {
+        font-size: 18px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+
     .btn-primary {
-        background-color: #4CAF50;
+        background-color: gray;
         color: white;
         border: none;
         padding: 10px 20px;
         text-decoration: none;
         cursor: pointer;
         border-radius: 4px;
+        font-size: 16px;
     }
 
         .btn-primary:hover {
@@ -42,9 +56,10 @@
 <div class="container">
     <div class="text-center">
         <h1 class="display-4">StationSights</h1>
-        <p>Introducing our Proximity-based Tourist Attractions Finder, a groundbreaking app that connects travellers to the most captivating tourist attractions near public transport stations. Say goodbye to the hassle of searching for nearby attractions - with a single click, our app unveils an array of hidden gems just steps away from your chosen station.</p>
+        <p class="lead">Introducing our Proximity-based Tourist Attractions Finder, a groundbreaking app that connects travellers to the most captivating tourist attractions near public transport stations. Say goodbye to the hassle of searching for nearby attractions - with a single click, our app unveils an array of hidden gems just steps away from your chosen station.</p>
     </div>
     <div class="text-center">
         <a href="/StopsList/Index" class="btn-primary">View Stops</a>
     </div>
 </div>
+

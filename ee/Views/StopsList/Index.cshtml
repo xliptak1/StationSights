@@ -61,8 +61,27 @@
             background-color: #45a049;
         }
 
-    .filter-buttons {
+    .headline {
+        font-size: 70px;
+        font-weight: bold;
+        text-align: center;
         margin-bottom: 20px;
+    }
+
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .filter-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
     }
 
     .filter-button {
@@ -73,24 +92,45 @@
         border: none;
         cursor: pointer;
         margin-right: 10px;
+        flex: 0 0 auto;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-
-        .filter-button.active {
-            background-color: #4CAF50;
-            color: white;
-        }
+    .filter-button-all {
+        width: 100%;
+    }
 </style>
 
 <div class="container">
-    <h2>Stops in Brno</h2>
+    <h1 class="headline">Stops in Brno</h1>
 
     <div class="filter-buttons">
-        <button onclick="filterStops('all')" class="filter-button active">All</button>
-        @for (char c = 'A'; c <= 'Z'; c++)
-        {
-            <button onclick="filterStops('@c')" class="filter-button">@c</button>
-        }
+        <div class="filter-group">
+            <div class="filter-row">
+                @for (char c = 'A'; c <= 'M'; c++)
+                {
+                    <button onclick="filterStops('@c')" class="filter-button">@c</button>
+                }
+            </div>
+        </div>
+        <div class="filter-group">
+            <div class="filter-row">
+                @for (char c = 'N'; c <= 'Z'; c++)
+                {
+                    <button onclick="filterStops('@c')" class="filter-button">@c</button>
+                }
+            </div>
+        </div>
+        <div class="filter-group">
+            <div class="filter-row">
+                <button onclick="filterStops('all')" class="filter-button filter-button-all">All</button>
+            </div>
+        </div>
     </div>
+
 
     <table class="table">
         <thead>
@@ -108,7 +148,7 @@
                 var y = stop.Geometry.Y.ToString().Replace(',', '.');
                 <tr class="table-row" data-stopname="@stop.Name">
                     <td>@stop.Id</td>
-                    <td class="stop-name">@stop.Name</td>
+                    <td class="stop-name">@Html.Raw(stop.Name)</td>
                     <td>
                         <button onclick="showDetails('@x','@y')" class="details-button">Show</button>
                     </td>
@@ -128,12 +168,19 @@
                 tableRows[i].style.display = "none";
             }
         }
+
+        // Set the active class for the filter buttons
         var filterButtons = document.getElementsByClassName("filter-button");
         for (var i = 0; i < filterButtons.length; i++) {
             filterButtons[i].classList.remove("active");
         }
         var selectedButton = document.querySelector(".filter-button[data-filter='" + filter + "']");
         selectedButton.classList.add("active");
+
+        // Update the query string with the selected filter
+        var url = new URL(window.location.href);
+        url.searchParams.set("filter", filter);
+        history.replaceState(null, null, url.href);
     }
 
     function showDetails(x, y) {
